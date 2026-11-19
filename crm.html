@@ -6,12 +6,13 @@
     <title>Miksha Ayurveda - Global CRM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #047857; --primary-dark: #064e3b; --accent: #d97706; --bg: #f8fafc; --white: #ffffff; --danger: #ef4444; --success: #10b981; --text: #1e293b; --text-light: #64748b; --info: #3b82f6; --border: #e2e8f0; }
+        :root { --primary: #047857; --primary-dark: #064e3b; --accent: #d97706; --bg: #f8fafc; --white: #ffffff; --danger: #ef4444; --success: #10b981; --text: #1e293b; --text-light: #64748b; --info: #3b82f6; --border: #e2e8f0; --purple: #7c3aed; }
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: all 0.2s ease-in-out; }
         body { margin: 0; background: var(--bg); color: var(--text); }
+
         #login-screen { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); padding: 20px; }
         .login-box { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); text-align: center; width: 100%; max-width: 400px; }
-        .login-box h2 { color: var(--primary-dark); margin-top: 0; font-weight: 700; font-size: 24px;}
+        .login-box h2 { color: var(--primary-dark); margin-top: 0; font-weight: 700; font-size: 24px; }
         .login-box p { color: var(--text-light); margin-bottom: 25px; }
         .login-box input { width: 100%; padding: 14px; margin: 10px 0 20px; border: 2px solid var(--border); border-radius: 10px; font-size: 16px; text-align: center; letter-spacing: 3px; outline: none; }
         .login-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(4, 120, 87, 0.1); }
@@ -22,66 +23,173 @@
         header { background: linear-gradient(to right, var(--primary-dark), var(--primary)); color: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 15px; }
         header h1 { margin: 0; font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         header h1 span { font-size: 13px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-weight: 500; }
-        .logout-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: 600;}
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .tabs { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-btn { flex: 1; min-width: 150px; padding: 14px 15px; background: var(--white); border: 1px solid var(--border); color: var(--text-light); border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
-        .tab-btn.active { background: var(--primary); border-color: var(--primary); color: white;}
-        .panel { background: var(--white); padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid var(--border); display: none; }
-        .panel.active { display: block; }
-        .panel h2 { color: var(--primary-dark); margin-top: 0; margin-bottom: 25px; font-size: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .logout-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .container { max-width: 1280px; margin: 25px auto; padding: 0 18px; }
 
-        .form-grid { display: flex; flex-wrap: wrap; gap: 20px; }
-        .form-group { flex: 1 1 calc(50% - 20px); min-width: 250px; text-align: left; }
+        /* KPI Summary Cards */
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: var(--white); padding: 20px; border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-left: 5px solid var(--primary); }
+        .kpi-card.orders { border-left-color: var(--success); }
+        .kpi-card.value { border-left-color: var(--accent); }
+        .kpi-card.calls { border-left-color: var(--info); }
+        .kpi-label { font-size: 12px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+        .kpi-value { font-size: 26px; font-weight: 700; color: var(--text); margin-top: 6px; }
+
+        .tabs { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+        .tab-btn { flex: 1; min-width: 140px; padding: 12px 14px; background: var(--white); border: 1px solid var(--border); color: var(--text-light); border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .tab-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+        .panel { background: var(--white); padding: 26px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid var(--border); display: none; }
+        .panel.active { display: block; }
+        .panel h2 { color: var(--primary-dark); margin-top: 0; margin-bottom: 22px; font-size: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+
+        .section-box { background: #f0fdf4; border: 2px dashed #86efac; border-radius: 12px; padding: 18px; margin-top: 15px; width: 100%; }
+        .section-box h3 { margin: 0 0 15px 0; font-size: 15px; color: var(--primary-dark); }
+
+        .form-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+        .form-group { flex: 1 1 calc(50% - 16px); min-width: 230px; text-align: left; }
+        .form-group.third { flex: 1 1 calc(33.33% - 16px); min-width: 180px; }
         .form-group.full-width { flex: 1 1 100%; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; color: var(--text-light); text-transform: uppercase; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; border: 2px solid var(--border); border-radius: 10px; font-size: 15px; outline: none; background: #f8fafc; color: var(--text); }
-        .submit-btn, .update-btn, .search-box button { color: white; border: none; padding: 15px 25px; font-size: 16px; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 20px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 12px; color: var(--text-light); text-transform: uppercase; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 11px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 14px; outline: none; background: #f8fafc; color: var(--text); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); background: var(--white); }
+
+        .submit-btn, .update-btn, .search-box button { color: white; border: none; padding: 14px 22px; font-size: 15px; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 18px; }
         .submit-btn { background: linear-gradient(to right, var(--success), #059669); }
         .update-btn { background: linear-gradient(to right, var(--info), #2563eb); }
-        .search-box button { background: var(--primary); width: auto; margin-top: 0; padding: 12px 25px; }
-        .search-box { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: #f1f5f9; padding: 15px; border-radius: 12px;}
-        .search-box input { flex: 1; min-width: 200px; padding: 12px; border: 2px solid var(--border); border-radius: 8px;}
+        .search-box button { background: var(--primary); width: auto; margin-top: 0; padding: 11px 22px; }
+
+        .search-box, .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; background: #f1f5f9; padding: 14px; border-radius: 12px; align-items: center; }
+        .search-box input, .filter-bar input, .filter-bar select { flex: 1; min-width: 170px; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 14px; background: var(--white); }
+
         .table-responsive { overflow-x: auto; width: 100%; border-radius: 12px; border: 1px solid var(--border); }
-        table { width: 100%; border-collapse: collapse; min-width: 800px; background: var(--white); }
-        th, td { padding: 15px; border-bottom: 1px solid var(--border); text-align: left; font-size: 14px; }
-        th { background: #f8fafc; color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 12px; }
-        .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: white; display: inline-block;}
-        .download-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; font-weight: 600; border-radius: 8px; cursor: pointer; margin-bottom: 15px; width: 100%; max-width: 250px; }
+        table { width: 100%; border-collapse: collapse; min-width: 950px; background: var(--white); }
+        th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; vertical-align: middle; }
+        th { background: #f8fafc; color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 11px; white-space: nowrap; }
+
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; color: white; display: inline-block; white-space: nowrap; }
+        .download-btn { background: var(--accent); color: white; border: none; padding: 10px 18px; font-weight: 600; border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .refresh-btn { background: var(--primary); color: white; border: none; padding: 10px 18px; font-weight: 600; border-radius: 8px; cursor: pointer; font-size: 13px; }
+
+        .action-btns { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+        .btn-call { background: #2563eb; color: white; text-decoration: none; padding: 4px 9px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-block; }
+        .btn-wa { background: #16a34a; color: white; text-decoration: none; padding: 4px 9px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-block; }
+        .btn-edit-sm { background: #f59e0b; color: white; border: none; padding: 4px 9px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .empty-state { text-align: center; padding: 30px; color: var(--text-light); font-size: 14px; }
+
+        @media (max-width: 600px) {
+            .panel { padding: 18px; }
+            header { padding: 12px 16px; }
+            header h1 { font-size: 18px; }
+            .tab-btn { min-width: 45%; font-size: 12px; padding: 10px 8px; }
+        }
     </style>
 </head>
 <body>
+    <!-- LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-box">
             <h2>🌿 Miksha Ayurveda</h2>
             <p>Global CRM Portal</p>
-            <input type="password" id="pin-input" placeholder="Enter Secure PIN">
-            <button onclick="login()">Access Dashboard</button>
+            <input type="password" id="pin-input" placeholder="Enter Secure PIN" onkeypress="if(event.key==='Enter') login()">
+            <button id="login-btn" onclick="login()">Access Dashboard</button>
             <div id="login-error">❌ Incorrect PIN! Try again.</div>
         </div>
     </div>
 
+    <!-- MAIN DASHBOARD -->
     <div id="dashboard">
         <header>
             <h1>🌿 Miksha CRM <span id="user-role"></span></h1>
             <button class="logout-btn" onclick="logout()">🔒 Logout</button>
         </header>
+
         <div class="container">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-add', this)">➕ Add New Lead</button>
-                <button class="tab-btn" onclick="switchTab('tab-verify', this)">🔍 Verify Coupon</button>
+            <!-- EXPERT MODE KPI CARDS -->
+            <div id="kpi-section" class="kpi-grid" style="display: none;">
+                <div class="kpi-card">
+                    <div class="kpi-label">Today's Total Leads</div>
+                    <div class="kpi-value" id="kpi-today-leads">0</div>
+                </div>
+                <div class="kpi-card orders">
+                    <div class="kpi-label">Today's Confirmed Orders</div>
+                    <div class="kpi-value" id="kpi-today-orders">0</div>
+                </div>
+                <div class="kpi-card value">
+                    <div class="kpi-label">Total Order Value (₹)</div>
+                    <div class="kpi-value" id="kpi-total-value">₹0</div>
+                </div>
+                <div class="kpi-card calls">
+                    <div class="kpi-label">Today's Pending Callbacks</div>
+                    <div class="kpi-value" id="kpi-today-callbacks">0</div>
+                </div>
             </div>
 
-            <!-- TAB 1: ADD LEAD -->
-            <div id="tab-add" class="panel active">
+            <!-- NAVIGATION TABS -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('tab-verify', this)">🔍 Verify Coupon</button>
+                <button class="tab-btn" onclick="switchTab('tab-add', this)">➕ Add New Lead</button>
+                <button class="tab-btn" onclick="switchTab('tab-calls', this)">📞 Today's Calls</button>
+                <button class="tab-btn" onclick="switchTab('tab-refills', this)">🔄 Refill Reminders</button>
+                <button class="tab-btn" id="btn-update-lead" onclick="switchTab('tab-update', this)" style="display: none;">✏️ Update Lead</button>
+                <button class="tab-btn" id="btn-view-leads" onclick="switchTab('tab-leads', this)" style="display: none;">📋 Database</button>
+            </div>
+
+            <!-- TAB 1: VERIFY COUPON -->
+            <div id="tab-verify" class="panel active">
+                <h2>Smart Code Verifier</h2>
+                <div class="verifier-box">
+                    <input type="text" id="coupon-code" placeholder="MK-XXXXXX" maxlength="9" style="width:100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; text-transform: uppercase;">
+                    <button onclick="verifyCode()" class="submit-btn" style="margin-top:0;">VERIFY COUPON</button>
+                    <div id="verify-result" style="margin-top: 15px; text-align: center;"></div>
+                </div>
+            </div>
+
+            <!-- TAB 2: ADD NEW LEAD -->
+            <div id="tab-add" class="panel">
                 <h2>Register New Customer</h2>
                 <div class="form-grid">
                     <div class="form-group">
                         <label>WhatsApp Number (10 Digits) <span style="color:red">*</span></label>
                         <input type="text" id="cust-phone" maxlength="10" placeholder="Required" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                     </div>
-                    <div class="form-group"><label>Customer Name (Opt)</label><input type="text" id="cust-name"></div>
-                    <div class="form-group"><label>Alternate Number (Opt)</label><input type="text" id="cust-alt-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'');"></div>
+                    <div class="form-group">
+                        <label>Customer Name (Opt)</label>
+                        <input type="text" id="cust-name" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Alternate Number (Opt)</label>
+                        <input type="text" id="cust-alt-phone" maxlength="10" placeholder="10-digit alt number" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                    </div>
+                    <div class="form-group">
+                        <label>Lead Source</label>
+                        <select id="cust-source">
+                            <option value="QR Pamphlet">📄 QR Pamphlet</option>
+                            <option value="WhatsApp">💬 WhatsApp</option>
+                            <option value="Facebook/Insta Ad">📱 Facebook/Insta Ad</option>
+                            <option value="Referral">🤝 Referral</option>
+                            <option value="Other">🌐 Other</option>
+                        </select>
+                    </div>
+
+                    <!-- PATIENT DETAILS -->
+                    <div class="form-group third">
+                        <label>Patient Age (Opt)</label>
+                        <input type="number" id="cust-age" placeholder="e.g. 35" min="1" max="120">
+                    </div>
+                    <div class="form-group third">
+                        <label>Gender (Opt)</label>
+                        <select id="cust-gender">
+                            <option value="">Select Gender...</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group third">
+                        <label>Problem Duration (Opt)</label>
+                        <input type="text" id="cust-duration" placeholder="e.g. 6 months, 2 years">
+                    </div>
 
                     <div class="form-group">
                         <label>Health Problem (Opt)</label>
@@ -105,12 +213,18 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Verified Coupon (Opt)</label><input type="text" id="cust-coupon"></div>
+                    <div class="form-group">
+                        <label>Verified Coupon (Opt)</label>
+                        <input type="text" id="cust-coupon" placeholder="MK-XXXXXX">
+                    </div>
 
-                    <div class="form-group full-width"><label>Status / AI Action ⚡</label>
-                        <select id="cust-remark" onchange="toggleCallback('cust')">
+                    <div class="form-group full-width">
+                        <label>Status / AI Action ⚡</label>
+                        <select id="cust-remark" onchange="toggleDynamicSections('cust')">
                             <option value="New Lead">🆕 New Lead</option>
                             <option value="Order">📦 Order Confirmed</option>
+                            <option value="Delivered">✅ Delivered</option>
+                            <option value="Return">↩️ Return / RTO</option>
                             <option value="Money Problem">💸 Money Problem</option>
                             <option value="Ringing">🔔 Ringing</option>
                             <option value="Busy">📵 Busy</option>
@@ -121,50 +235,417 @@
                         </select>
                     </div>
 
+                    <!-- DYNAMIC CALLBACK DATE -->
                     <div class="form-group full-width" id="cust-callback-div" style="display:none;">
                         <label>Call Back Date (Notification 11 AM)</label>
                         <input type="date" id="cust-callback-date">
                     </div>
 
-                    <div class="form-group full-width"><label>Delivery Address (Opt)</label><textarea id="cust-address" rows="3"></textarea></div>
+                    <!-- DYNAMIC ORDER & DISPATCH DETAILS -->
+                    <div id="cust-order-section" class="section-box" style="display:none;">
+                        <h3>📦 Order, Billing & Dispatch Details</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Medicine / Course Name</label>
+                                <input type="text" id="cust-medicine" placeholder="e.g. Miksha Gas Churan Kit">
+                            </div>
+                            <div class="form-group">
+                                <label>Course Duration (Auto Refill Date)</label>
+                                <select id="cust-course-duration" onchange="autoCalculateRefill('cust')">
+                                    <option value="">Select Duration...</option>
+                                    <option value="15 Days Trial">15 Days Trial</option>
+                                    <option value="1 Month">1 Month (30 Days)</option>
+                                    <option value="2 Months">2 Months (60 Days)</option>
+                                    <option value="3 Months">3 Months (90 Days)</option>
+                                </select>
+                            </div>
+                            <div class="form-group third">
+                                <label>Order Amount (₹)</label>
+                                <input type="number" id="cust-amount" placeholder="e.g. 999">
+                            </div>
+                            <div class="form-group third">
+                                <label>Discount Amount (₹)</label>
+                                <input type="number" id="cust-discount" placeholder="e.g. 100">
+                            </div>
+                            <div class="form-group third">
+                                <label>Payment Mode</label>
+                                <select id="cust-payment-mode">
+                                    <option value="COD">COD (Cash on Delivery)</option>
+                                    <option value="Prepaid UPI">Prepaid UPI</option>
+                                    <option value="Partial Advance + COD">Partial Advance + COD</option>
+                                </select>
+                            </div>
+                            <div class="form-group third">
+                                <label>6-Digit Pincode</label>
+                                <input type="text" id="cust-pincode" maxlength="6" placeholder="e.g. 110001" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                            </div>
+                            <div class="form-group third">
+                                <label>Dispatch Status</label>
+                                <select id="cust-dispatch-status">
+                                    <option value="Pending Dispatch">Pending Dispatch</option>
+                                    <option value="Packed">Packed</option>
+                                    <option value="Dispatched">Dispatched</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="RTO / Return">RTO / Return</option>
+                                </select>
+                            </div>
+                            <div class="form-group third">
+                                <label>Refill Reminder Date (Auto/Edit)</label>
+                                <input type="date" id="cust-refill-date">
+                            </div>
+                            <div class="form-group">
+                                <label>Courier Name (Opt)</label>
+                                <input type="text" id="cust-courier" placeholder="e.g. Delhivery, India Post">
+                            </div>
+                            <div class="form-group">
+                                <label>Tracking / AWB Number (Opt)</label>
+                                <input type="text" id="cust-tracking" placeholder="Tracking ID">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Delivery Address (Opt)</label>
+                        <textarea id="cust-address" rows="2" placeholder="House No, Street, Village/City, State"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Call Notes / Remarks History (Opt)</label>
+                        <textarea id="cust-notes" rows="2" placeholder="Customer se kya baat hui, yahan note karein..."></textarea>
+                    </div>
                 </div>
-                <button class="submit-btn" id="save-btn" onclick="saveLead()">💾 Save to Google Sheet</button>
+                <button class="submit-btn" id="btn-save-lead" onclick="saveLead()">💾 Global Save & AI Message</button>
             </div>
 
-            <!-- TAB 2: VERIFY -->
-            <div id="tab-verify" class="panel">
-                <h2>Smart Code Verifier</h2>
-                <div class="verifier-box">
-                    <input type="text" id="coupon-code" placeholder="MK-XXXXXX" maxlength="9" style="width:100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px;">
-                    <button onclick="verifyCode()" class="submit-btn" style="margin-top:0;">VERIFY COUPON</button>
-                    <br><div id="verify-result" style="margin-top: 15px; text-align: center;"></div>
+            <!-- TAB 3: TODAY'S CALLS -->
+            <div id="tab-calls" class="panel">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
+                    <h2 style="margin:0; border:none; padding:0;">📞 Today's & Missed Callbacks</h2>
+                    <button class="refresh-btn" onclick="loadGlobalLeads()">🔄 Refresh List</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Callback Date</th>
+                                <th>Customer</th>
+                                <th>Phone / Action</th>
+                                <th>Disease & Details</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="todays-calls-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: REFILL REMINDERS -->
+            <div id="tab-refills" class="panel">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
+                    <h2 style="margin:0; border:none; padding:0;">🔄 Upcoming Refill Reminders (Next 5 Days & Overdue)</h2>
+                    <button class="refresh-btn" onclick="loadGlobalLeads()">🔄 Refresh List</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Refill Date</th>
+                                <th>Customer</th>
+                                <th>Phone / Action</th>
+                                <th>Last Medicine & Course</th>
+                                <th>Order Amount</th>
+                                <th>Dispatch Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="refills-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 5: UPDATE LEAD (EXPERT MODE) -->
+            <div id="tab-update" class="panel">
+                <h2>Update Existing Lead</h2>
+                <div class="search-box">
+                    <input type="text" id="search-phone" maxlength="10" placeholder="Search 10-digit Mobile..." oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                    <button onclick="searchLead()">🔍 Search Server</button>
+                </div>
+
+                <div id="update-form-area" style="display: none;">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" id="upd-name">
+                        </div>
+                        <div class="form-group">
+                            <label>Alternate Number</label>
+                            <input type="text" id="upd-alt-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                        </div>
+                        <div class="form-group third">
+                            <label>Patient Age</label>
+                            <input type="number" id="upd-age" min="1" max="120">
+                        </div>
+                        <div class="form-group third">
+                            <label>Gender</label>
+                            <select id="upd-gender">
+                                <option value="">Select Gender...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group third">
+                            <label>Problem Duration</label>
+                            <input type="text" id="upd-duration">
+                        </div>
+                        <div class="form-group">
+                            <label>Lead Source</label>
+                            <select id="upd-source">
+                                <option value="QR Pamphlet">📄 QR Pamphlet</option>
+                                <option value="WhatsApp">💬 WhatsApp</option>
+                                <option value="Facebook/Insta Ad">📱 Facebook/Insta Ad</option>
+                                <option value="Referral">🤝 Referral</option>
+                                <option value="Other">🌐 Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Update Disease</label>
+                            <select id="upd-disease">
+                                <option value="N/A">Select Disease...</option>
+                                <option value="Gas & Acidity">Gas & Acidity</option>
+                                <option value="Diabetes/Sugar">Diabetes / Sugar</option>
+                                <option value="Piles">Piles (Bawasir)</option>
+                                <option value="Weight Loss">Weight Loss</option>
+                                <option value="Weight Gain / Health">Weight Gain / Health</option>
+                                <option value="Thyroid">Thyroid</option>
+                                <option value="Joint Pain">Joint Pain (Ghutno ka dard)</option>
+                                <option value="Blood Pressure">Blood Pressure (B.P)</option>
+                                <option value="Kidney Stone">Kidney Stone (Pathri)</option>
+                                <option value="Gallbladder Stone">Gallbladder Stone</option>
+                                <option value="Asthma / Breathing">Asthma / Breathing</option>
+                                <option value="Hair Fall">Hair Fall</option>
+                                <option value="Skin Allergy">Skin Allergy</option>
+                                <option value="Constipation">Constipation (Kabz)</option>
+                                <option value="Sexual Wellness">Sexual Wellness</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>New Status / AI Action ⚡ (Expert Remarks Included)</label>
+                            <select id="upd-remark" onchange="toggleDynamicSections('upd')">
+                                <option value="New Lead">🆕 New Lead</option>
+                                <option value="Order">📦 Order Confirmed</option>
+                                <option value="Delivered">✅ Delivered</option>
+                                <option value="Return">↩️ Return / RTO</option>
+                                <option value="Money Problem">💸 Money Problem</option>
+                                <option value="Ringing">🔔 Ringing</option>
+                                <option value="Busy">📵 Busy</option>
+                                <option value="Wrong Number">❌ Wrong Number</option>
+                                <option value="Not interested">🚫 Not interested</option>
+                                <option value="Trial medicine">💊 Trial medicine</option>
+                                <option value="Call back">📞 Call back</option>
+                                <option value="Call back (Notified)">📞 Call back (Notified)</option>
+                            </select>
+                        </div>
+
+                        <!-- DYNAMIC CALLBACK DATE -->
+                        <div class="form-group full-width" id="upd-callback-div" style="display:none;">
+                            <label>Call Back Date (Notification 11 AM)</label>
+                            <input type="date" id="upd-callback-date">
+                        </div>
+
+                        <!-- DYNAMIC ORDER & DISPATCH DETAILS -->
+                        <div id="upd-order-section" class="section-box" style="display:none;">
+                            <h3>📦 Order, Billing & Dispatch Details</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Medicine / Course Name</label>
+                                    <input type="text" id="upd-medicine">
+                                </div>
+                                <div class="form-group">
+                                    <label>Course Duration (Auto Refill Date)</label>
+                                    <select id="upd-course-duration" onchange="autoCalculateRefill('upd')">
+                                        <option value="">Select Duration...</option>
+                                        <option value="15 Days Trial">15 Days Trial</option>
+                                        <option value="1 Month">1 Month (30 Days)</option>
+                                        <option value="2 Months">2 Months (60 Days)</option>
+                                        <option value="3 Months">3 Months (90 Days)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group third">
+                                    <label>Order Amount (₹)</label>
+                                    <input type="number" id="upd-amount">
+                                </div>
+                                <div class="form-group third">
+                                    <label>Discount Amount (₹)</label>
+                                    <input type="number" id="upd-discount">
+                                </div>
+                                <div class="form-group third">
+                                    <label>Payment Mode</label>
+                                    <select id="upd-payment-mode">
+                                        <option value="COD">COD (Cash on Delivery)</option>
+                                        <option value="Prepaid UPI">Prepaid UPI</option>
+                                        <option value="Partial Advance + COD">Partial Advance + COD</option>
+                                    </select>
+                                </div>
+                                <div class="form-group third">
+                                    <label>6-Digit Pincode</label>
+                                    <input type="text" id="upd-pincode" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                </div>
+                                <div class="form-group third">
+                                    <label>Dispatch Status</label>
+                                    <select id="upd-dispatch-status">
+                                        <option value="Pending Dispatch">Pending Dispatch</option>
+                                        <option value="Packed">Packed</option>
+                                        <option value="Dispatched">Dispatched</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="RTO / Return">RTO / Return</option>
+                                    </select>
+                                </div>
+                                <div class="form-group third">
+                                    <label>Refill Reminder Date (Auto/Edit)</label>
+                                    <input type="date" id="upd-refill-date">
+                                </div>
+                                <div class="form-group">
+                                    <label>Courier Name</label>
+                                    <input type="text" id="upd-courier">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tracking / AWB Number</label>
+                                    <input type="text" id="upd-tracking">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Update Address</label>
+                            <textarea id="upd-address" rows="2"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Call Notes / Remarks History</label>
+                            <textarea id="upd-notes" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <button class="update-btn" id="btn-update-submit" onclick="updateLead()">🔄 Global Update & AI Message</button>
+                </div>
+            </div>
+
+            <!-- TAB 6: DATABASE (EXPERT MODE) -->
+            <div id="tab-leads" class="panel">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
+                    <h2 style="margin:0; border:none; padding:0;">📋 Master Leads Database</h2>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="refresh-btn" onclick="loadGlobalLeads()">🔄 Refresh</button>
+                        <button class="download-btn" onclick="downloadData()">⬇️ Export CSV Report</button>
+                    </div>
+                </div>
+
+                <!-- LIVE FILTERS -->
+                <div class="filter-bar">
+                    <input type="text" id="filter-search" placeholder="🔍 Search by Name or Phone..." oninput="renderLeadsTable()">
+                    <select id="filter-status" onchange="renderLeadsTable()">
+                        <option value="">All Statuses</option>
+                        <option value="New Lead">New Lead</option>
+                        <option value="Order">Order Confirmed</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Return">Return / RTO</option>
+                        <option value="Call back">Call back</option>
+                        <option value="Trial medicine">Trial medicine</option>
+                        <option value="Money Problem">Money Problem</option>
+                        <option value="Ringing">Ringing</option>
+                        <option value="Busy">Busy</option>
+                        <option value="Wrong Number">Wrong Number</option>
+                        <option value="Not interested">Not interested</option>
+                    </select>
+                    <input type="date" id="filter-date" onchange="renderLeadsTable()">
+                    <button class="refresh-btn" style="background:#64748b;" onclick="clearFilters()">Clear</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Customer & Source</th>
+                                <th>WhatsApp / Action</th>
+                                <th>Disease & Patient</th>
+                                <th>Status</th>
+                                <th>Order & Dispatch</th>
+                                <th>Callback / Refill</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leads-table-body"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const renderApiUrl = "https://miksha-crm-backend.onrender.com/add-data";
+        const downloadPass = "Manish@9266";
+        const vpsBaseUrl = "https://miksha-crm-backend.onrender.com";
+        let leads = [];
+        let currentEditingPhone = "";
 
-        document.addEventListener("DOMContentLoaded", function() {
+        function getTodayISO() {
+            const now = new Date();
+            const offset = now.getTimezoneOffset() * 60000;
+            return new Date(now - offset).toISOString().split('T')[0];
+        }
+
+        function normalizeDateToISO(dateStr) {
+            if (!dateStr) return "";
+            const s = String(dateStr).trim();
+            if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(s)) {
+                const [d, m, y] = s.split('/');
+                return `${y}-${m}-${d}`;
+            }
+            return s;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
             let savedRole = localStorage.getItem("miksha_logged_in_role");
             if (savedRole) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("dashboard").style.display = "block";
                 document.getElementById("user-role").innerText = `[${savedRole} Mode]`;
+                if (savedRole === "Expert") {
+                    document.getElementById("kpi-section").style.display = "grid";
+                    document.getElementById("btn-view-leads").style.display = "inline-block";
+                    document.getElementById("btn-update-lead").style.display = "inline-block";
+                }
+                loadGlobalLeads();
             }
         });
 
-        function login() {
+        async function login() {
             let pin = document.getElementById("pin-input").value.trim();
-            if (pin === "9266") {
-                localStorage.setItem("miksha_logged_in_role", "Expert");
-                location.reload();
-            } else if (pin === "1234") {
-                localStorage.setItem("miksha_logged_in_role", "Agent");
-                location.reload();
-            } else {
-                document.getElementById("login-error").style.display = "block";
+            let btn = document.getElementById("login-btn");
+            let err = document.getElementById("login-error");
+            err.style.display = "none";
+            btn.innerText = "⏳ Connecting...";
+            btn.disabled = true;
+
+            try {
+                let res = await fetch(vpsBaseUrl + "/api/login", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pin: pin })
+                });
+                let data = await res.json();
+                if (data.success) {
+                    localStorage.setItem("miksha_logged_in_role", data.role);
+                    location.reload();
+                } else {
+                    err.style.display = "block";
+                    btn.innerText = "Access Dashboard";
+                    btn.disabled = false;
+                }
+            } catch (e) {
+                alert("❌ Server wake up ho raha hai (30-50 sec lag sakte hain), ek baar dobara Login dabao!");
+                btn.innerText = "Access Dashboard";
+                btn.disabled = false;
             }
         }
 
@@ -173,83 +654,502 @@
             location.reload();
         }
 
-        function switchTab(tabId, btnElement) {
+        function switchTab(tabId, btnEl) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            btnElement.classList.add('active');
+            if (btnEl) btnEl.classList.add('active');
         }
 
-        function toggleCallback(prefix) {
+        function toggleDynamicSections(prefix) {
             let remark = document.getElementById(prefix + "-remark").value;
             let dateDiv = document.getElementById(prefix + "-callback-div");
+            let orderSec = document.getElementById(prefix + "-order-section");
+
             dateDiv.style.display = (remark === "Call back") ? "block" : "none";
+
+            const isOrderFlow = (remark === "Order" || remark === "Delivered" || remark === "Return");
+            orderSec.style.display = isOrderFlow ? "block" : "none";
+
+            // Sync dispatch status automatically if Delivered or Return chosen
+            const dispatchEl = document.getElementById(prefix + "-dispatch-status");
+            if (remark === "Delivered") dispatchEl.value = "Delivered";
+            if (remark === "Return") dispatchEl.value = "RTO / Return";
+
+            if (remark === "Order" || remark === "Delivered") {
+                autoCalculateRefill(prefix);
+            }
         }
 
-        function verifyCode() {
+        function autoCalculateRefill(prefix) {
+            let remark = document.getElementById(prefix + "-remark").value;
+            let duration = document.getElementById(prefix + "-course-duration").value;
+            let refillInput = document.getElementById(prefix + "-refill-date");
+
+            if (!duration || (remark !== "Order" && remark !== "Delivered")) return;
+
+            let daysToAdd = 0;
+            if (duration === "15 Days Trial") daysToAdd = 10;
+            else if (duration === "1 Month") daysToAdd = 25;
+            else if (duration === "2 Months") daysToAdd = 55;
+            else if (duration === "3 Months") daysToAdd = 85;
+
+            if (daysToAdd > 0) {
+                const target = new Date();
+                target.setDate(target.getDate() + daysToAdd);
+                const offset = target.getTimezoneOffset() * 60000;
+                refillInput.value = new Date(target - offset).toISOString().split('T')[0];
+            }
+        }
+
+        async function loadGlobalLeads() {
+            try {
+                let res = await fetch(vpsBaseUrl + "/api/leads");
+                let data = await res.json();
+                if (Array.isArray(data)) {
+                    leads = data;
+                    updateKPIs();
+                    renderTodaysCalls();
+                    renderRefillReminders();
+                    let role = localStorage.getItem("miksha_logged_in_role");
+                    if (role === "Expert") renderLeadsTable();
+                }
+            } catch (e) {
+                console.error("Load error:", e);
+            }
+        }
+
+        function updateKPIs() {
+            const today = getTodayISO();
+            let todayLeads = 0;
+            let todayOrders = 0;
+            let totalOrderValue = 0;
+            let todayCallbacks = 0;
+
+            leads.forEach(l => {
+                const lDate = normalizeDateToISO(l.date);
+                const cbDate = normalizeDateToISO(l.callback_date);
+                const remark = String(l.remark || "");
+                const amt = parseFloat(l.order_amount) || 0;
+
+                if (lDate === today) {
+                    todayLeads++;
+                    if (remark === "Order" || remark === "Delivered") todayOrders++;
+                }
+                if (remark === "Order" || remark === "Delivered") {
+                    totalOrderValue += amt;
+                }
+                if (remark === "Call back" && cbDate && cbDate <= today) {
+                    todayCallbacks++;
+                }
+            });
+
+            document.getElementById("kpi-today-leads").innerText = todayLeads;
+            document.getElementById("kpi-today-orders").innerText = todayOrders;
+            document.getElementById("kpi-total-value").innerText = "₹" + totalOrderValue.toLocaleString('en-IN');
+            document.getElementById("kpi-today-callbacks").innerText = todayCallbacks;
+        }
+
+        async function verifyCode() {
             let code = document.getElementById("coupon-code").value.trim().toUpperCase();
             let resultDiv = document.getElementById("verify-result");
             if (!code) {
                 resultDiv.innerHTML = `<span style="color: #ef4444; font-weight: 600;">❌ Code likho pehle!</span>`;
                 return;
             }
-            if (code.startsWith("MK-") && code.length === 9) {
-                resultDiv.innerHTML = `<span style="color: #10b981; font-weight: 600;">✅ Valid Coupon Format!</span>`;
-            } else {
-                resultDiv.innerHTML = `<span style="color: #ef4444; font-weight: 600;">❌ Invalid Coupon Code!</span>`;
+            resultDiv.innerHTML = "⏳ Checking...";
+            try {
+                let res = await fetch(vpsBaseUrl + "/api/verify-coupon", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ coupon: code })
+                });
+                let data = await res.json();
+                resultDiv.innerHTML = `<span style="color: ${data.success ? '#10b981' : '#ef4444'}; font-weight: 600;">${data.msg}</span>`;
+            } catch (e) {
+                resultDiv.innerHTML = `<span style="color: #ef4444; font-weight: 600;">❌ Server error! Dobara try karein.</span>`;
             }
         }
 
         async function saveLead() {
-            let phoneVal = document.getElementById("cust-phone").value;
+            let phoneVal = document.getElementById("cust-phone").value.trim();
             if (phoneVal.length !== 10) {
                 alert("❌ Please enter valid 10-digit WhatsApp number!");
                 return;
             }
 
             let savedRole = localStorage.getItem("miksha_logged_in_role") || "Agent";
-            let newLead = {
-                date: new Date().toLocaleDateString('en-GB'),
-                agent: savedRole,
-                name: document.getElementById("cust-name").value || "Unknown",
-                phone: phoneVal,
-                altPhone: document.getElementById("cust-alt-phone").value || "N/A",
-                disease: document.getElementById("cust-disease").value || "N/A",
-                coupon: document.getElementById("cust-coupon").value || "N/A",
-                remark: document.getElementById("cust-remark").value,
-                callbackDate: document.getElementById("cust-callback-date").value || "N/A",
-                address: document.getElementById("cust-address").value || "N/A"
-            };
+            let remarkVal = document.getElementById("cust-remark").value;
+            let cbDateVal = document.getElementById("cust-callback-date").value;
 
-            if (newLead.remark === "Call back" && newLead.callbackDate === "N/A") {
+            if (remarkVal === "Call back" && !cbDateVal) {
                 alert("Please select a Call Back Date!");
                 return;
             }
 
-            let btn = document.getElementById("save-btn");
+            let newLead = {
+                date: getTodayISO(),
+                agent: savedRole,
+                phone: phoneVal,
+                name: document.getElementById("cust-name").value.trim() || "Unknown",
+                altPhone: document.getElementById("cust-alt-phone").value.trim(),
+                age: document.getElementById("cust-age").value.trim(),
+                gender: document.getElementById("cust-gender").value,
+                disease: document.getElementById("cust-disease").value || "N/A",
+                problemDuration: document.getElementById("cust-duration").value.trim(),
+                leadSource: document.getElementById("cust-source").value,
+                coupon: document.getElementById("cust-coupon").value.trim().toUpperCase() || "N/A",
+                remark: remarkVal,
+                callbackDate: cbDateVal,
+                address: document.getElementById("cust-address").value.trim() || "N/A",
+                pincode: document.getElementById("cust-pincode").value.trim(),
+                medicineName: document.getElementById("cust-medicine").value.trim(),
+                courseDuration: document.getElementById("cust-course-duration").value,
+                orderAmount: document.getElementById("cust-amount").value.trim(),
+                discountAmount: document.getElementById("cust-discount").value.trim(),
+                paymentMode: document.getElementById("cust-payment-mode").value,
+                dispatchStatus: (remarkVal === "Order" || remarkVal === "Delivered" || remarkVal === "Return") ? document.getElementById("cust-dispatch-status").value : "",
+                courierName: document.getElementById("cust-courier").value.trim(),
+                trackingNumber: document.getElementById("cust-tracking").value.trim(),
+                refillDate: document.getElementById("cust-refill-date").value,
+                notes: document.getElementById("cust-notes").value.trim()
+            };
+
+            let btn = document.getElementById("btn-save-lead");
             btn.innerText = "⏳ Saving to Google Sheet...";
             btn.disabled = true;
 
             try {
-                let res = await fetch(renderApiUrl, {
+                let res = await fetch(vpsBaseUrl + "/api/save-lead", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newLead)
                 });
                 let data = await res.json();
+                await fetch(vpsBaseUrl + "/api/send-remark-msg", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: newLead.phone, remark: newLead.remark })
+                });
+
                 if (data.success) {
-                    alert("✅ Data Google Sheet me save ho gaya!");
+                    alert("✅ Lead Saved to Google Sheet!");
                     location.reload();
                 } else {
-                    alert("❌ Error: " + (data.error || "Save nahi ho paya!"));
-                    btn.innerText = "💾 Save to Google Sheet";
+                    alert("❌ Save Error: " + (data.error || "Unknown error"));
+                    btn.innerText = "💾 Global Save & AI Message";
                     btn.disabled = false;
                 }
             } catch (e) {
-                alert("❌ Server se connect nahi ho pa raha! (Render free server ko jagne me 30-50 second lag sakte hain, ek baar dobara try kar)");
-                btn.innerText = "💾 Save to Google Sheet";
+                alert("❌ Server connect nahi hua! Dobara try karein.");
+                btn.innerText = "💾 Global Save & AI Message";
                 btn.disabled = false;
             }
+        }
+
+        function quickEditLead(phone) {
+            const updBtn = document.getElementById("btn-update-lead");
+            switchTab('tab-update', updBtn);
+            document.getElementById("search-phone").value = phone;
+            searchLead();
+        }
+
+        async function searchLead() {
+            await loadGlobalLeads();
+            let phone = document.getElementById("search-phone").value.trim();
+            if (phone.length !== 10) {
+                alert("Please enter 10 digits!");
+                return;
+            }
+
+            let lead = leads.find(l => String(l.phone).trim() === phone);
+            if (lead) {
+                currentEditingPhone = phone;
+                document.getElementById("update-form-area").style.display = "block";
+                document.getElementById("upd-name").value = (lead.name === "Unknown") ? "" : (lead.name || "");
+                document.getElementById("upd-alt-phone").value = lead.alt_phone || "";
+                document.getElementById("upd-age").value = lead.age || "";
+                document.getElementById("upd-gender").value = lead.gender || "";
+                document.getElementById("upd-duration").value = lead.problem_duration || "";
+                document.getElementById("upd-source").value = lead.lead_source || "Other";
+                document.getElementById("upd-disease").value = lead.disease || "N/A";
+                document.getElementById("upd-remark").value = lead.remark || "New Lead";
+                document.getElementById("upd-callback-date").value = normalizeDateToISO(lead.callback_date);
+                document.getElementById("upd-address").value = (lead.address === "N/A") ? "" : (lead.address || "");
+                document.getElementById("upd-pincode").value = lead.pincode || "";
+                document.getElementById("upd-medicine").value = lead.medicine_name || "";
+                document.getElementById("upd-course-duration").value = lead.course_duration || "";
+                document.getElementById("upd-amount").value = lead.order_amount || "";
+                document.getElementById("upd-discount").value = lead.discount_amount || "";
+                document.getElementById("upd-payment-mode").value = lead.payment_mode || "COD";
+                document.getElementById("upd-dispatch-status").value = lead.dispatch_status || "Pending Dispatch";
+                document.getElementById("upd-courier").value = lead.courier_name || "";
+                document.getElementById("upd-tracking").value = lead.tracking_number || "";
+                document.getElementById("upd-refill-date").value = normalizeDateToISO(lead.refill_date);
+                document.getElementById("upd-notes").value = lead.notes || "";
+
+                toggleDynamicSections('upd');
+                // Preserve saved refill date if already set
+                if (lead.refill_date) {
+                    document.getElementById("upd-refill-date").value = normalizeDateToISO(lead.refill_date);
+                }
+            } else {
+                alert("❌ Server par ye lead nahi mili!");
+                document.getElementById("update-form-area").style.display = "none";
+            }
+        }
+
+        async function updateLead() {
+            let remarkVal = document.getElementById("upd-remark").value;
+            let cbDateVal = document.getElementById("upd-callback-date").value;
+
+            if (remarkVal === "Call back" && !cbDateVal) {
+                alert("Please select a Call Back Date!");
+                return;
+            }
+
+            let updatedData = {
+                phone: currentEditingPhone,
+                agent: localStorage.getItem("miksha_logged_in_role") || "Expert",
+                name: document.getElementById("upd-name").value.trim() || "Unknown",
+                altPhone: document.getElementById("upd-alt-phone").value.trim(),
+                age: document.getElementById("upd-age").value.trim(),
+                gender: document.getElementById("upd-gender").value,
+                disease: document.getElementById("upd-disease").value,
+                problemDuration: document.getElementById("upd-duration").value.trim(),
+                leadSource: document.getElementById("upd-source").value,
+                remark: remarkVal,
+                callbackDate: cbDateVal,
+                address: document.getElementById("upd-address").value.trim() || "N/A",
+                pincode: document.getElementById("upd-pincode").value.trim(),
+                medicineName: document.getElementById("upd-medicine").value.trim(),
+                courseDuration: document.getElementById("upd-course-duration").value,
+                orderAmount: document.getElementById("upd-amount").value.trim(),
+                discountAmount: document.getElementById("upd-discount").value.trim(),
+                paymentMode: document.getElementById("upd-payment-mode").value,
+                dispatchStatus: (remarkVal === "Order" || remarkVal === "Delivered" || remarkVal === "Return") ? document.getElementById("upd-dispatch-status").value : "",
+                courierName: document.getElementById("upd-courier").value.trim(),
+                trackingNumber: document.getElementById("upd-tracking").value.trim(),
+                refillDate: document.getElementById("upd-refill-date").value,
+                notes: document.getElementById("upd-notes").value.trim()
+            };
+
+            let btn = document.getElementById("btn-update-submit");
+            btn.innerText = "⏳ Updating Google Sheet...";
+            btn.disabled = true;
+
+            try {
+                let res = await fetch(vpsBaseUrl + "/api/save-lead", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                });
+                let data = await res.json();
+                await fetch(vpsBaseUrl + "/api/send-remark-msg", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: updatedData.phone, remark: updatedData.remark })
+                });
+
+                if (data.success) {
+                    alert("✅ Lead Updated Successfully!");
+                    document.getElementById("update-form-area").style.display = "none";
+                    document.getElementById("search-phone").value = "";
+                    loadGlobalLeads();
+                } else {
+                    alert("❌ Update Error: " + (data.error || "Unknown error"));
+                }
+            } catch (e) {
+                alert("❌ Server error! Dobara try karein.");
+            } finally {
+                btn.innerText = "🔄 Global Update & AI Message";
+                btn.disabled = false;
+            }
+        }
+
+        function getStatusColor(s) {
+            if (!s) return 'background: #64748b;';
+            if (s === 'Order') return 'background: #10b981;';
+            if (s === 'Delivered') return 'background: #047857;';
+            if (s === 'Return' || s === 'RTO / Return') return 'background: #991b1b;';
+            if (s === 'Money Problem' || s === 'Trial medicine') return 'background: #f59e0b;';
+            if (s === 'Wrong Number' || s === 'Not interested') return 'background: #ef4444;';
+            if (s.includes('Call back')) return 'background: #3b82f6;';
+            return 'background: #64748b;';
+        }
+
+        function buildContactCell(phone, name, extraMsg = "") {
+            const cleanPhone = String(phone || "").replace(/[^0-9]/g, "");
+            const waText = encodeURIComponent(extraMsg || `Namaste ${name || ""}, Miksha Ayurveda se baat kar rahe hain.`);
+            const isExpert = localStorage.getItem("miksha_logged_in_role") === "Expert";
+            const editBtn = isExpert ? `<button class="btn-edit-sm" onclick="quickEditLead('${cleanPhone}')">✏️ Edit</button>` : "";
+            return `
+                <b>${cleanPhone}</b>
+                <div class="action-btns">
+                    <a class="btn-call" href="tel:${cleanPhone}">📞 Call</a>
+                    <a class="btn-wa" target="_blank" href="https://wa.me/91${cleanPhone}?text=${waText}">💬 WhatsApp</a>
+                    ${editBtn}
+                </div>
+            `;
+        }
+
+        function renderTodaysCalls() {
+            const tbody = document.getElementById("todays-calls-body");
+            const today = getTodayISO();
+            const filtered = leads.filter(l => {
+                const cb = normalizeDateToISO(l.callback_date);
+                return String(l.remark || "") === "Call back" && cb && cb <= today;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">🎉 Aaj koi pending ya missed callback nahi hai!</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(l => {
+                const cb = normalizeDateToISO(l.callback_date);
+                const isMissed = cb < today;
+                const dateBadge = isMissed
+                    ? `<span class="badge" style="background:#ef4444;">Missed: ${cb}</span>`
+                    : `<span class="badge" style="background:#3b82f6;">Today: ${cb}</span>`;
+                return `
+                    <tr>
+                        <td>${dateBadge}</td>
+                        <td><b>${l.name || 'Unknown'}</b><br><small style="color:#64748b;">${l.lead_source || ''}</small></td>
+                        <td>${buildContactCell(l.phone, l.name)}</td>
+                        <td>${l.disease || 'N/A'}<br><small style="color:#64748b;">${l.age ? l.age + 'y ' : ''}${l.gender || ''} ${l.problem_duration ? '(' + l.problem_duration + ')' : ''}</small></td>
+                        <td><span class="badge" style="${getStatusColor(l.remark)}">${l.remark}</span></td>
+                        <td>${l.notes || '-'}</td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function renderRefillReminders() {
+            const tbody = document.getElementById("refills-table-body");
+            const today = getTodayISO();
+            const plus5 = new Date();
+            plus5.setDate(plus5.getDate() + 5);
+            const offset = plus5.getTimezoneOffset() * 60000;
+            const maxDate = new Date(plus5 - offset).toISOString().split('T')[0];
+
+            const filtered = leads.filter(l => {
+                const rf = normalizeDateToISO(l.refill_date);
+                const r = String(l.remark || "");
+                return (r === "Order" || r === "Delivered") && rf && rf <= maxDate;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">✅ Aane wale 5 din me koi refill reminder due nahi hai.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(l => {
+                const rf = normalizeDateToISO(l.refill_date);
+                const isOverdue = rf < today;
+                const badgeStyle = isOverdue ? "background:#ef4444;" : "background:#d97706;";
+                const waMsg = `Namaste ${l.name || ""}, Miksha Ayurveda se baat kar rahe hain. Aapki ${l.medicine_name || "Ayurvedic dawai"} ka course complete hone wala hai. Kya hum aapka next refill pack bhej dein?`;
+                return `
+                    <tr>
+                        <td><span class="badge" style="${badgeStyle}">${rf}</span></td>
+                        <td><b>${l.name || 'Unknown'}</b><br><small style="color:#64748b;">${l.disease || ''}</small></td>
+                        <td>${buildContactCell(l.phone, l.name, waMsg)}</td>
+                        <td><b>${l.medicine_name || '-'}</b><br><small style="color:#64748b;">${l.course_duration || ''}</small></td>
+                        <td>₹${l.order_amount || '0'} <small>(${l.payment_mode || '-'})</small></td>
+                        <td><span class="badge" style="${getStatusColor(l.dispatch_status || l.remark)}">${l.dispatch_status || l.remark}</span></td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function clearFilters() {
+            document.getElementById("filter-search").value = "";
+            document.getElementById("filter-status").value = "";
+            document.getElementById("filter-date").value = "";
+            renderLeadsTable();
+        }
+
+        function renderLeadsTable() {
+            const tbody = document.getElementById("leads-table-body");
+            const q = document.getElementById("filter-search").value.trim().toLowerCase();
+            const statusFilter = document.getElementById("filter-status").value;
+            const dateFilter = document.getElementById("filter-date").value;
+
+            const filtered = leads.filter(l => {
+                const matchSearch = !q ||
+                    String(l.name || "").toLowerCase().includes(q) ||
+                    String(l.phone || "").toLowerCase().includes(q) ||
+                    String(l.alt_phone || "").toLowerCase().includes(q);
+                const matchStatus = !statusFilter || String(l.remark || "") === statusFilter;
+                const matchDate = !dateFilter || normalizeDateToISO(l.date) === dateFilter;
+                return matchSearch && matchStatus && matchDate;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="empty-state">Koi lead nahi mili.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(l => {
+                const badge = `<span class="badge" style="${getStatusColor(l.remark)}">${l.remark || 'N/A'}</span>`;
+                const orderInfo = l.medicine_name || l.order_amount
+                    ? `<b>${l.medicine_name || 'Order'}</b> (${l.course_duration || '-'})<br>₹${l.order_amount || 0} | ${l.payment_mode || '-'}<br><span class="badge" style="margin-top:3px; ${getStatusColor(l.dispatch_status)}">${l.dispatch_status || 'Pending'}</span>`
+                    : `<span style="color:#94a3b8;">-</span>`;
+                const datesInfo = `
+                    ${l.callback_date ? `📞 CB: <b>${normalizeDateToISO(l.callback_date)}</b><br>` : ""}
+                    ${l.refill_date ? `🔄 Refill: <b>${normalizeDateToISO(l.refill_date)}</b>` : ""}
+                    ${(!l.callback_date && !l.refill_date) ? "-" : ""}
+                `;
+                return `
+                    <tr>
+                        <td>${normalizeDateToISO(l.date) || '-'}</td>
+                        <td><b>${l.name || 'Unknown'}</b><br><small style="color:#64748b;">${l.lead_source || 'Other'} ${l.pincode ? '| Pin: ' + l.pincode : ''}</small></td>
+                        <td>${buildContactCell(l.phone, l.name)}</td>
+                        <td><b>${l.disease || 'N/A'}</b><br><small style="color:#64748b;">${l.age ? l.age + 'y ' : ''}${l.gender || ''} ${l.problem_duration ? '· ' + l.problem_duration : ''}</small></td>
+                        <td>${badge}</td>
+                        <td>${orderInfo}</td>
+                        <td>${datesInfo}</td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function downloadData() {
+            let pass = prompt("Enter Master Password:");
+            if (pass !== downloadPass) {
+                alert("❌ Incorrect Password!");
+                return;
+            }
+            const headers = [
+                "Date", "Agent", "Name", "Phone", "Alt Phone", "Age", "Gender",
+                "Disease", "Problem Duration", "Lead Source", "Coupon", "Status/Remark",
+                "Callback Date", "Address", "Pincode", "Medicine Name", "Course Duration",
+                "Order Amount", "Discount Amount", "Payment Mode", "Dispatch Status",
+                "Courier Name", "Tracking Number", "Refill Date", "Notes"
+            ];
+            let csv = headers.join(",") + "\n";
+            const esc = v => `"${String(v || "").replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+
+            leads.forEach(l => {
+                csv += [
+                    esc(l.date), esc(l.agent), esc(l.name), esc(l.phone), esc(l.alt_phone),
+                    esc(l.age), esc(l.gender), esc(l.disease), esc(l.problem_duration),
+                    esc(l.lead_source), esc(l.coupon), esc(l.remark), esc(l.callback_date),
+                    esc(l.address), esc(l.pincode), esc(l.medicine_name), esc(l.course_duration),
+                    esc(l.order_amount), esc(l.discount_amount), esc(l.payment_mode),
+                    esc(l.dispatch_status), esc(l.courier_name), esc(l.tracking_number),
+                    esc(l.refill_date), esc(l.notes)
+                ].join(",") + "\n";
+            });
+
+            let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `Miksha_CRM_Report_${getTodayISO()}.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 </body>
